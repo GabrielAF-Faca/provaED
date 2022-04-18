@@ -65,7 +65,7 @@ Celula *lista_inserir(int valor, Celula *lista){
 
     //OBJETIVO 1
     if (lista_encontrar(valor, lista)) {
-        cout << endl << "Número já contido na lista" << endl;
+        cout << "Número já contido na lista" << endl;
         return lista;
     }
 
@@ -143,7 +143,7 @@ Celula *lista_excluir_ocorrencias(int valor, Celula *lista){
 
 }
 
-void lista_exibir(Celula *lista, int break_line = 0){
+void lista_exibir(Celula *lista, int break_line){
     if (!lista){ 
         cout << "Lista vazia\n";
         return;
@@ -151,7 +151,6 @@ void lista_exibir(Celula *lista, int break_line = 0){
 
     Celula *p;
     
-    cout << endl;
     for (p = lista; p ; p = p->prox){
         cout << "[" << p->dado << "] " << ((break_line != 0) ? "\n" : "");
     }
@@ -209,14 +208,17 @@ Celula *lista_unir(Celula *lista1, Celula *lista2, Celula *lista){
         return 0;
     }
 
-    Celula *p, *p2;
+    Celula *p;
 
-    for (p = lista1; p; p = p->prox){
-        lista = lista_inserir(p->dado, lista);
-    }
+    lista = lista1;
 
-    for (p2 = lista2; p2 ; p2 = p2->prox){
-        lista = lista_inserir(p2->dado, lista);
+    bool parar = false;
+
+    for(p = lista; p ; p = p->prox){
+        if(p->prox == NULL && !parar){
+            parar = true;
+            p->prox = lista2;
+        }
     }
 
     return lista;
